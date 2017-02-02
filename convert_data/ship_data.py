@@ -1,14 +1,24 @@
 from __init__ import convert
 
 
+def has_ship(battlefield, cell):
+    """
+    dict, (str, int) -> bool
+    TODO write documentation to the end
+    """
+    return battlefield[(cell[1], convert(cell[0]))] is not None
+
+
 def ship_size(battlefield, cell):
     """
-    dict, (str, int) -> int
+    dict, (str, int) -> (int, set((int, int)))
     TODO documentation
     """
     cell = (cell[1], convert(cell[0]))
     if battlefield[cell] is not None:
         counter = 1
+        coordinates = set()
+        coordinates.add(cell)
         directions = set((0, -1), (1, 0), (0, 1), (-1, 0))
         for current_direction in directions:
             current_row = cell[0]
@@ -19,10 +29,11 @@ def ship_size(battlefield, cell):
                     current_col += current_direction[1]
                     if battlefield[current_row, current_col] is not None:
                         counter += 1
+                        coordinates.add((current_row, current_col))
                     else:
                         break
             except:
                 pass
-        return counter
+        return counter, coordinates
     else:
-        return 0
+        return (0, 0)
