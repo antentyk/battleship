@@ -17,3 +17,10 @@ def convert(item):
         return None
     except:
         return None
+
+
+def is_correct_cell(cell):
+    """
+    (int, int) -> bool
+    """
+    return cell[0] >= 1 and cell[0] <= 10 and cell[1] >= 1 and cell[1] <= 10

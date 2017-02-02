@@ -9,12 +9,13 @@ def has_ship(battlefield, cell):
     return battlefield[(cell[1], convert(cell[0]))] is not None
 
 
-def ship_size(battlefield, cell):
+def ship_size(battlefield, cell, convert):
     """
-    dict, (str, int) -> (int, set((int, int)))
+    dict, (str, int), bool -> (int, set((int, int)))
     TODO documentation
     """
-    cell = (cell[1], convert(cell[0]))
+    if convert:
+        cell = (cell[1], convert(cell[0]))
     if battlefield[cell] is not None:
         counter = 1
         coordinates = set()
