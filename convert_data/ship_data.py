@@ -1,14 +1,6 @@
 from __init__ import convert
 
 
-def has_ship(battlefield, cell):
-    """
-    dict, (str, int) -> bool
-    TODO write documentation to the end
-    """
-    return battlefield[(cell[1], convert(cell[0]))] is not None
-
-
 def ship_size(battlefield, cell):
     """
     dict, (str, int) -> int
