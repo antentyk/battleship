@@ -29,7 +29,9 @@ def has_ship(battlefield, cell):
 
 def ship_size(battlefield, cell, is_convert):
     """
-    dict(tuple(int, int), (str, int) or (int, int), bool -> (int, set((int, int)))
+    dict(tuple(int, int),
+    (str, int) or (int, int),
+    bool -> (int, set((int, int)))
 
     returns a length of the ship, a part of which is located in cell cell
     and set of coordinates of all the parts of this ship
@@ -51,7 +53,8 @@ def ship_size(battlefield, cell, is_convert):
             2) False - there is undamaged ship in that cell
             3) True - there is damaged ship in that cell
 
-    it is assumed that all the ships are placed in the battlefield according to all the rules
+    it is assumed that all the ships
+    are placed in the battlefield according to all the rules
     of the game
     """
     if is_convert:
@@ -77,4 +80,4 @@ def ship_size(battlefield, cell, is_convert):
                     break
         return counter, coordinates
     else:
-        return (0, 0)
+        return 0, 0

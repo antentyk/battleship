@@ -24,8 +24,10 @@ def possible_direction(ship_length, allowed_cells, start_cell):
     for current_direction in possible_directions:
         is_ok = True
         for i in range(1, ship_length):
-            current_cell = (start_cell[0] + current_direction[0] * i, start_cell[1] + current_direction[1] * i)
-            if not is_correct_cell(current_cell) or current_cell not in allowed_cells:
+            current_cell = (start_cell[0] + current_direction[0] * i,
+                            start_cell[1] + current_direction[1] * i)
+            if (not is_correct_cell(current_cell) or
+                    current_cell not in allowed_cells):
                 is_ok = False
                 break
         if is_ok:
@@ -35,22 +37,34 @@ def possible_direction(ship_length, allowed_cells, start_cell):
     return result
 
 
-def write_ship(allowed_cells, current_battlefield, start_cell, ship_length, direction=(0, 0)):
+def write_ship(allowed_cells,
+               current_battlefield,
+               start_cell,
+               ship_length,
+               direction=(0, 0)):
     """
-    set(tuple(int, int)), dict(tuple(int, int): None or bool), tuple(int, int), int, tuple(int, int) -> None
+    set(tuple(int, int)),
+    dict(tuple(int, int): None or bool),
+    tuple(int, int), int,
+    tuple(int, int) -> None
 
-    updates allowed cells and current_battlefield writing a ship with length ship_length
+    updates allowed cells and current_battlefield writing
+    a ship with length ship_length
     from start_cell in direction direction
 
     read more about direction in possible_direction() documentation
     read more about current_battlefield in generate_field() documentation
     """
     for i in range(ship_length):
-        current_cell = (start_cell[0] + i * direction[0], start_cell[1] + i * direction[1])
+        current_cell = (start_cell[0] + i * direction[0],
+                        start_cell[1] + i * direction[1])
         current_battlefield[current_cell] = False
-    end_cell = (start_cell[0] + (ship_length - 1) * direction[0], start_cell[1] + (ship_length - 1) * direction[1])
-    delete_start_cell = (min(start_cell[0], end_cell[0]) - 1, min(start_cell[1], end_cell[1]) - 1)
-    delete_end_cell = (max(start_cell[0], end_cell[0]) + 1, max(start_cell[1], end_cell[1]) + 1)
+    end_cell = (start_cell[0] + (ship_length - 1) * direction[0],
+                start_cell[1] + (ship_length - 1) * direction[1])
+    delete_start_cell = (min(start_cell[0], end_cell[0]) - 1,
+                         min(start_cell[1], end_cell[1]) - 1)
+    delete_end_cell = (max(start_cell[0], end_cell[0]) + 1,
+                       max(start_cell[1], end_cell[1]) + 1)
     for row in range(delete_start_cell[0], delete_end_cell[0] + 1):
         for col in range(delete_start_cell[1], delete_end_cell[1] + 1):
             if (row, col) in allowed_cells:
@@ -85,13 +99,23 @@ def generate_field():
         for i in range(ship_rules[ship_length]):
             while allowed_guess:
                 random_cell = random.sample(allowed_guess, 1)[0]
-                current_result = possible_direction(ship_length, allowed_cells, random_cell)
+                current_result = possible_direction(ship_length,
+                                                    allowed_cells,
+                                                    random_cell)
                 if current_result is None:
                     allowed_guess.remove(random_cell)
                 else:
-                    write_ship(allowed_cells, current_battlefield, random_cell, ship_length, random.choice(current_result))
-                    allowed_guess = allowed_cells.copy().intersection(allowed_guess)
+                    write_ship(allowed_cells,
+                               current_battlefield,
+                               random_cell,
+                               ship_length,
+                               random.choice(current_result))
+                    allowed_guess = allowed_cells.copy()\
+                        .intersection(allowed_guess)
                     break
     for i in range(4):
-        write_ship(allowed_cells, current_battlefield, random.sample(allowed_cells, 1)[0], 1)
+        write_ship(allowed_cells,
+                   current_battlefield,
+                   random.sample(allowed_cells, 1)[0],
+                   1)
     return current_battlefield
