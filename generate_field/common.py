@@ -22,5 +22,8 @@ def convert(item):
 def is_correct_cell(cell):
     """
     (int, int) -> bool
+
+    returns True if cell can be in a dictionary - representation of
+    the battlefield
     """
     return cell[0] >= 1 and cell[0] <= 10 and cell[1] >= 1 and cell[1] <= 10

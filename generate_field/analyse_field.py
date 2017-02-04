@@ -4,15 +4,32 @@ from ship_data import ship_size
 
 def analyse_field(battlefield):
     """
-    dict -> bool
+    dict(tuple(int, int): None or bool) -> bool
+
+    analyses dictionary - representation of the battlefield in battleship
+    returns True if placement of the ships like that in battlefield is possible
+    returns False otherwise
+    in particular:
+        1) some of ships touch each other
+        ***  or  ***
+        *           ****
+        2) there is wrong number of each ships of different size
+        like 5 * ships or 2 **** ships
+
+    dictionary structure:
+        - the key is (int, int) - number of row and column respectively
+        - numbers in key are in [1; 10] inclusive
+        - the value can be:
+            1) None - there is nothing in that cell
+            2) False - there is undamaged ship in that cell
+            3) True - there is damaged ship in that cell
     """
     ships = {}
     visited = set()
-    diagonal_neighbours = set((-1, -1), (-1, 1), (1, 1), (1, -1))
-    connected_neighbours = set((0, -1), (1, 0), (0, 1), (-1, 0))
+    diagonal_neighbours = set([(-1, -1), (-1, 1), (1, 1), (1, -1)])
+    connected_neighbours = set([(0, -1), (1, 0), (0, 1), (-1, 0)])
     for cell in battlefield:
         if cell not in visited:
-            # немає сенсу добавляти у візітед бо я вже тут не буду
             current_result = ship_size(battlefield, cell, False)
             if current_result[0] != 0:
                 for ship_cell in current_result[1]:
