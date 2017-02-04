@@ -14,5 +14,5 @@ def field_to_str(battlefield):
         symbols += convert[battlefield[cell]]
     rows = []
     for i in range(10):
-        rows.append(symbols[i * 10 : i * 10 + 10])
+        rows.append(symbols[i * 10: i * 10 + 10])
     return '\n'.join(rows)

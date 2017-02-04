@@ -1,4 +1,4 @@
-from __init__ import convert
+from common import convert, is_correct_cell
 
 
 def has_ship(battlefield, cell):
@@ -24,17 +24,17 @@ def ship_size(battlefield, cell, convert):
         for current_direction in directions:
             current_row = cell[0]
             current_col = cell[1]
-            try:
-                while True:
-                    current_row += current_direction[0]
-                    current_col += current_direction[1]
+            while True:
+                current_row += current_direction[0]
+                current_col += current_direction[1]
+                if is_correct_cell((current_row, current_col)):
                     if battlefield[current_row, current_col] is not None:
                         counter += 1
                         coordinates.add((current_row, current_col))
                     else:
                         break
-            except:
-                pass
+                else:
+                    break
         return counter, coordinates
     else:
         return (0, 0)
