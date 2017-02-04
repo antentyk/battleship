@@ -27,7 +27,7 @@ def has_ship(battlefield, cell):
     return battlefield[(cell[1], convert(cell[0]))] is not None
 
 
-def ship_size(battlefield, cell, convert):
+def ship_size(battlefield, cell, is_convert):
     """
     dict(tuple(int, int), (str, int) or (int, int), bool -> (int, set((int, int)))
 
@@ -36,11 +36,11 @@ def ship_size(battlefield, cell, convert):
 
     if there is not ship in this cell, returns (0, 0)
 
-    convert variable determines format of cell:
-        1) if convert is True, cell should be like
+    is_convert variable determines format of cell:
+        1) if is_convert is True, cell should be like
             ('A', 2) etc.
             read more in has_ship() documentation
-        2) if convert is False, cell should be like
+        2) if is_convert is False, cell should be like
             (1, 2)
 
     dictionary structure:
@@ -54,7 +54,7 @@ def ship_size(battlefield, cell, convert):
     it is assumed that all the ships are placed in the battlefield according to all the rules
     of the game
     """
-    if convert:
+    if is_convert:
         cell = (cell[1], convert(cell[0]))
     if battlefield[cell] is not None:
         counter = 1

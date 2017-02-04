@@ -1,4 +1,4 @@
-from common import convert, is_correct_cell
+from common import is_correct_cell
 from ship_data import ship_size
 
 
