@@ -1,5 +1,5 @@
 import random
-from common import is_correct_cell
+from .common import is_correct_cell
 
 
 def possible_direction(ship_length, allowed_cells, start_cell):

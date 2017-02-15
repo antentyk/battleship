@@ -1,4 +1,4 @@
-from common import convert, is_correct_cell
+from .common import convert, is_correct_cell
 
 
 def has_ship(battlefield, cell):
@@ -27,7 +27,7 @@ def has_ship(battlefield, cell):
     return battlefield[(cell[1], convert(cell[0]))] is not None
 
 
-def ship_size(battlefield, cell, is_convert):
+def ship_size(battlefield, cell, is_convert=False):
     """
     dict(tuple(int, int),
     (str, int) or (int, int),
