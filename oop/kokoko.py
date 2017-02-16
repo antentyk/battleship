@@ -1,7 +1,11 @@
-from generate_field.generate_field import generate_field
-from generate_field.ship_data import ship_size
-from generate_field.common import convert
+#from ..generate_field.generate_field import generate_field
+#from ..generate_field.ship_data import ship_size
+#from ..generate_field.common import convert
+from generate_field import generate_field
+from ship_data import ship_size
+from common import convert
 import string
+import os
 
 
 class Ship:
@@ -42,6 +46,7 @@ class Ship:
 class Field:
     def __init__(self):
         self.field = {}
+        self.cells_left = 20
         field = generate_field()
         visited = set()
         for cell in field:
@@ -64,9 +69,12 @@ class Field:
             return self.field[coordinate]
     def shoot_at(self, coordinate):
         if isinstance(self.field[coordinate], Ship):
+            self.cells_left -= 1
             self.field[coordinate].shoot_at(coordinate)
+            return True
         else:
             self.field[coordinate] = True
+            return False
     def field_without_ships(self):
         '''
         E - empty you know for sure
@@ -115,13 +123,16 @@ class Field:
 class Player:
     def __init__(self, name):
         self.name = name
-    def read_position(self):
+    def read_position(self, opponent_field):
         while True:
             try:
                 inp = input("Enter your position for example A4")
                 line = int(inp[1])
                 row = convert(inp[0])
                 if row is not None:
+                    if not opponent_field.is_hit((line, row)):
+                        print('You have already hit in this cell')
+                        continue
                     return (line, row)
             except:
                 print('wrong data! Try again!')
@@ -132,4 +143,35 @@ class Game:
         self.fields = [Field(), Field()]
         self.players = [Player('player1'), Player('player2')]
         self.current_player = 1
-    #---------------------------------
+    def increase_player(self):
+        self.current_player = 2 - ((self.current_player + 1) % 2)
+    def get_index(self):
+        return self.current_player - 1
+    def get_opponent_index(self):
+        return 1 - ((self.current_player + 1) % 2)
+    def field_with_ships(self, index):
+        return self.fields[index].field_with_ships()
+    def field_without_ships(self, index):
+        return self.fields[index].field_without_ships()
+    def is_winner(self):
+        if self.fields[0].cells_left == 0:
+            return 1
+        if self.fields[1].cells_left == 0:
+            return 2
+        return False
+    def start(self):
+        while not self.is_winner():
+            os.system('cls')
+            print(self.players[self.current_player - 1].name + ' make your move')
+            print('your field')
+            print(self.fields[self.get_index()].field_with_ships())
+            print('opponent field')
+            print(self.fields[self.get_opponent_index()].field_without_ships())
+            cell = self.players[self.get_index()].read_position(self.fields[self.get_opponent_index()])
+            if not self.fields[self.get_opponent_index()].shoot_at(cell):
+                self.increase_player()
+        print(self.players[self.is_winner() - 1].name + ' won')
+
+
+game = Game()
+game.start()
